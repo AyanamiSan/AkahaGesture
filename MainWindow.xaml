@@ -55,6 +55,7 @@
                     </ComboBox.ItemsSource>
                 </ComboBox>
                 <TextBlock Margin="10 0" VerticalAlignment="Center">images</TextBlock>
+                <TextBox Width="100" Margin="10 0" VerticalAlignment="Center" IsEnabled="{Binding notStarted}" Text="{Binding Path=sessionTagsString, Mode=TwoWay, NotifyOnSourceUpdated=True}"/>
                 <Button DockPanel.Dock="Right" MaxWidth="100" HorizontalAlignment="Right" Padding="10 0" Visibility="{Binding notStarted, Converter={StaticResource b2v}}" Command="{Binding startCommand}">▶ Start</Button>
                 <Button DockPanel.Dock="Right" MaxWidth="100" HorizontalAlignment="Right" Padding="10 0" Visibility="{Binding isStarted, Converter={StaticResource b2v}}" Command="{Binding stopCommand}">■ Stop</Button>
             </DockPanel>

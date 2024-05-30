@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.IO;
@@ -149,6 +150,7 @@ namespace Akaha_Gesture
                 var brandKey = Microsoft.Win32.Registry.CurrentUser.CreateSubKey(@"SOFTWARE\AkahaSoftware");
                 var key = brandKey.CreateSubKey("AkahaGesture");
                 key.SetValue(pref, value, Microsoft.Win32.RegistryValueKind.DWord);
+                key.SetValue("sessionTags", string.Join(", ", m_sessionTags));
                 key.Close();
                 brandKey.Close();
             } catch(Exception e) {
@@ -171,6 +173,7 @@ namespace Akaha_Gesture
                 this.secondsPerImage = (int)key.GetValue("secondsPerImage", 60);
                 this.imageCount = (int)key.GetValue("imageCount", 10);
                 this.autoMode = (int)key.GetValue("autoMode", 1) == 1;
+                this.sessionTagsString = (string)key.GetValue("sessionTags", "gesture");
                 key.Close();
             } catch(Exception e) {
                 Console.Error.WriteLine(e);
@@ -211,6 +214,7 @@ namespace Akaha_Gesture
                     currentImageStarted = DateTime.UtcNow;
                     lastSession = new Session(DateTime.UtcNow, sessionImages.Count, autoMode ? secondsPerImage : 0);
                     lastSession.AddImage(new Image { path = sessionImages[this.currentImageIndex.Value] });
+                    lastSession.tags = m_sessionTags.Select(t => new Tag { tag = t }).ToList();
                     if (autoMode) {
                         timer = new DispatcherTimer();
                         timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
@@ -272,6 +276,35 @@ namespace Akaha_Gesture
 
         private void onPropertyChanged(string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (!Equals(field, newValue))
+            {
+                field = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                return true;
+            }
+
+            return false;
+        }
+
+        private HashSet<string> m_sessionTags = new HashSet<string>();
+
+        public string sessionTagsString {
+            get => string.Join(", ", m_sessionTags);
+            set {
+                if (value == null) {
+                    m_sessionTags.Clear();
+                    return;
+                }
+                var tags = value.Split(',').Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim());
+                if (!m_sessionTags.SetEquals(tags)) {
+                    m_sessionTags = new HashSet<string>(tags);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("sessionTagsString"));
+                }
+            }
         }
     }
 }

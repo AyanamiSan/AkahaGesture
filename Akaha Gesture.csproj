@@ -24,7 +24,7 @@
     <CopySQLiteInteropFiles>false</CopySQLiteInteropFiles>
     <CleanSQLiteInteropFiles>false</CleanSQLiteInteropFiles>
     <CollectSQLiteInteropFiles>false</CollectSQLiteInteropFiles>
-    <PublishUrl>C:\Users\260\Documents\</PublishUrl>
+    <PublishUrl>C:\Users\260\Documents\projects\vs\AkahaGesture-build\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -34,8 +34,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -202,6 +201,7 @@
     <Compile Include="Migrations\202311011450216_CreateBaseTables.designer.cs">
       <DependentUpon>202311011450216_CreateBaseTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202405300518_AddTaggingSystem.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NextImageCommand.cs" />
     <Compile Include="PrevImageCommand.cs" />
@@ -211,6 +211,7 @@
     <Compile Include="Stats\SessionImage.cs" />
     <Compile Include="Stats\SQLiteDbConfiguration.cs" />
     <Compile Include="Stats\SessionRepository.cs" />
+    <Compile Include="Stats\Tag.cs" />
     <Compile Include="SummaryWindowModel.cs" />
     <Compile Include="Tests\SessionTest.cs" />
     <Compile Include="SummaryWindow.xaml.cs">

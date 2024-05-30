@@ -33,6 +33,16 @@ namespace Akaha_Gesture.Stats {
                 .HasRequired(si => si.image)
                 .WithMany()
                 .HasForeignKey(si => si.imageId);
+
+            modelBuilder.Entity<Tag>().ToTable("tags")
+                .HasMany(t => t.sessions)
+                .WithMany(s => s.tags)
+                .Map(m =>
+                {
+                    m.ToTable("session_tags");
+                    m.MapLeftKey("tag_id");
+                    m.MapRightKey("session_id");
+                });
         }
     }
 }

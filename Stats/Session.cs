@@ -42,6 +42,8 @@ namespace Akaha_Gesture.Stats {
             get => end - start;
         }
 
+        public List<Tag> tags { get; set; }
+
         private Session() { }
 
         public Session(DateTime start, int numImages, int secondsPerImage) {
